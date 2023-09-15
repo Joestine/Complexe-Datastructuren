@@ -1,3 +1,5 @@
+package models;
+
 import enums.StationType;
 
 public class Station {
@@ -29,7 +31,7 @@ public class Station {
 
     @Override
     public String toString() {
-        return "Station{" +
+        return "models.Station{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", uic=" + uic +
@@ -42,5 +44,49 @@ public class Station {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public int getUic() {
+        return uic;
+    }
+
+    public String getNameShort() {
+        return nameShort;
+    }
+
+    public String getNameMedium() {
+        return nameMedium;
+    }
+
+    public String getNameLong() {
+        return nameLong;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public StationType getType() {
+        return type;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 }

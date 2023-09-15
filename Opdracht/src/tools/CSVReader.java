@@ -19,12 +19,10 @@ public class CSVReader {
         return this;
     }
 
-    public List<String[]> readCSV() {
-        List<String[]> records = new ArrayList<>();
-        scanner.nextLine();
+    public List<String> readCSV() {
+        List<String> records = new ArrayList<>();
         while (scanner.hasNextLine()) {
-            String record = scanner.nextLine();
-            records.add(record.split(","));
+            records.add(scanner.nextLine());
         }
         return records;
     }
