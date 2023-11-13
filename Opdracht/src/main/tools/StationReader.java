@@ -1,22 +1,21 @@
-package tools;
+package main.tools;
 
-import enums.StationType;
-import models.Station;
+import main.enums.StationType;
+import main.models.Station;
 
 import java.io.FileNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class StationReader {
-    public static List<Station> readStations() throws FileNotFoundException {
+    public static List<Station> readStations(String filename) throws FileNotFoundException {
         System.out.println("[SYSTEM] Reading all Stations");
         ArrayList<Station> stations = new ArrayList<>();
         Instant start = Instant.now();
-        new CSVReader("resources/stations.csv").skipHeader().readCSV().forEach(line -> {
+        new CSVReader(filename).skipHeader().readCSV().forEach(line -> {
             if (!validateStation(line)) return;
             String[] args = line.split(",");
             StationType type = null;

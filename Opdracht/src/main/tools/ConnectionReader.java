@@ -1,6 +1,6 @@
-package tools;
+package main.tools;
 
-import models.Connection;
+import main.models.Connection;
 
 import java.io.FileNotFoundException;
 import java.time.Duration;
@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class ConnectionReader {
-    public static List<Connection> readConnections() throws FileNotFoundException {
+    public static List<Connection> readConnections(String filename) throws FileNotFoundException {
         System.out.println("[SYSTEM] Reading all Connections");
         ArrayList<Connection> connections = new ArrayList<>();
         Instant start = Instant.now();
-        new CSVReader("resources/tracks.csv").readCSV().forEach(line -> {
+        new CSVReader(filename).readCSV().forEach(line -> {
             if (!validateConnection(line)) return;
             String[] args = line.split(",");
             connections.add(new Connection(args[0], args[1], Integer.parseInt(args[2])));

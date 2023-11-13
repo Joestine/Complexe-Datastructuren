@@ -1,19 +1,18 @@
-package models;
+package main.models;
 
-import enums.StationType;
+import main.enums.StationType;
 
-public class Station {
-    private int id;
-    private String code;
-    private int uic;
-    private String nameShort;
-    private String nameMedium;
-    private String nameLong;
-    private String slug;
-    private String country;
-    private StationType type;
-    private double latitude;
-    private double longitude;
+public class Station implements Comparable<Station> {
+    private final int id;
+    private final String code;
+    private final int uic;
+    private final String nameShort;
+    private final String nameMedium;
+    private final String nameLong;
+    private final String slug;
+    private final String country;
+    private final StationType type;
+    private final Geolocation geolocation;
 
     public Station(int id, String code, int uic, String nameShort, String nameMedium, String nameLong, String slug, String country, StationType type, double latitude, double longitude) {
         this.id = id;
@@ -25,13 +24,19 @@ public class Station {
         this.slug = slug;
         this.country = country;
         this.type = type;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.geolocation = new Geolocation(latitude, longitude);
+    }
+
+    public boolean isInsideRectangle(Geolocation a, Geolocation b) {
+        return geolocation.latitude() >= a.latitude()
+                && geolocation.latitude() <= b.latitude()
+                && geolocation.longitude() >= a.longitude()
+                && geolocation.longitude() <= b.longitude();
     }
 
     @Override
     public String toString() {
-        return "models.Station{" +
+        return "main.models.Station{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", uic=" + uic +
@@ -41,8 +46,7 @@ public class Station {
                 ", slug='" + slug + '\'' +
                 ", country='" + country + '\'' +
                 ", type=" + type +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
+                ", geolocation=" + geolocation +
                 '}';
     }
 
@@ -82,11 +86,12 @@ public class Station {
         return type;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public Geolocation getGeolocation() {
+        return geolocation;
     }
 
-    public double getLongitude() {
-        return longitude;
+    @Override
+    public int compareTo(Station o) {
+        return this.nameShort.compareTo(o.nameShort);
     }
 }
