@@ -1,123 +1,62 @@
 package main.structures.linkedlist;
 
 public class LinkedList<T extends Comparable<T>> {
-    private Node head;
-
-    private class Node {
-        private final T data;
-        private Node next;
-
-        Node(T data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
+    private Node<T> head;
 
     public void add(T data) {
-        Node newNode = new Node(data);
+        Node<T> newNode = new Node<>(data);
         if (head == null) {
             head = newNode;
         } else {
-            Node current = head;
-            while (current.next != null) {
-                current = current.next;
+            Node<T> current = head;
+            while (current.getNext() != null) {
+                current = current.getNext();
             }
-            current.next = newNode;
+            current.setNext(newNode);
         }
     }
 
-    public boolean remove(T data) {
+    public T remove(T data) {
         if (head == null) {
-            return false;
+            return null;
         }
-
-        if (head.data.equals(data)) {
-            head = head.next;
-            return true;
+        if (head.getData().equals(data)) {
+            T temp = head.getData();
+            head = head.getNext();
+            return temp;
         }
-
-        Node current = head;
-        while (current.next != null) {
-            if (current.next.data.equals(data)) {
-                current.next = current.next.next;
-                return true;
+        Node<T> current = head;
+        while (current.getNext() != null) {
+            if (current.getNext().getData().equals(data)) {
+                T temp = current.getNext().getData();
+                current.setNext(current.getNext().getNext());
+                return temp;
             }
-            current = current.next;
+            current = current.getNext();
         }
-        return false;
+        return null;
+    }
+
+    public T get(T data) {
+        Node<T> current = head;
+        while (current != null) {
+            if (current.getData().equals(data)) {
+                return current.getData();
+            }
+            current = current.getNext();
+        }
+        return null;
     }
 
     public boolean contains(T data) {
-        Node current = head;
+        Node<T> current = head;
         while (current != null) {
-            if (current.data.equals(data)) {
+            if (current.getData().equals(data)) {
                 return true;
             }
-            current = current.next;
+            current = current.getNext();
         }
         return false;
     }
 
-    public T linearSearch(T data) {
-        Node current = head;
-        while (current != null) {
-            if (current.data.equals(data)) {
-                return current.data;
-            }
-            current = current.next;
-        }
-        return null;
-    }
-
-    private Node getMiddle(Node start, Node last) {
-        if (start == null)
-            return null;
-
-        Node slow = start;
-        Node fast = start.next;
-
-        while (fast != last) {
-            fast = fast.next;
-            if (fast != last) {
-                slow = slow.next;
-                fast = fast.next;
-            }
-        }
-        return slow;
-    }
-
-    public T binarySearch(T data) {
-        Node start = head;
-        Node last = null;
-
-        Node mid = getMiddle(start, last);
-
-        if (mid == null) {
-            return null;
-        }
-        if (mid.data.compareTo(data) == 0) {
-            return mid.data;
-        } else if (mid.data.compareTo(data) < 0) {
-            start = mid.next;
-        } else {
-            last = mid;
-        }
-
-        while (last == null || last != start) {
-            mid = getMiddle(start, last);
-
-            if (mid == null) {
-                return null;
-            }
-            if (mid.data.compareTo(data) == 0) {
-                return mid.data;
-            } else if (mid.data.compareTo(data) < 0) {
-                start = mid.next;
-            } else {
-                last = mid;
-            }
-        }
-
-        return null;
-    }
 }

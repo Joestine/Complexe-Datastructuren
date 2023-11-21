@@ -74,4 +74,18 @@ public class HashTable<K, V> {
         }
         return head.value;
     }
+
+    public boolean contains(K key) {
+        int bucketIndex = getBucketIndex(key);
+        Node<K, V> head = buckets[bucketIndex];
+
+        while (head != null) {
+            if (head.key.equals(key)) {
+                return true;
+            }
+            head = head.next;
+        }
+
+        return false;
+    }
 }

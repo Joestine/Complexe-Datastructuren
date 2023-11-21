@@ -18,11 +18,11 @@ public class Dijkstra<T> {
         for (T vertex : graph.getAdjacencyList().keySet()) {
             shortestDistances.put(vertex, Double.MAX_VALUE);
         }
-        minHeap.insert(new Node<>(root, 0.0));
+        minHeap.push(new Node<>(root, 0.0));
         shortestDistances.put(root, 0.0);
 
         while (!minHeap.isEmpty()) {
-            Node<T> currentNode = minHeap.delete();
+            Node<T> currentNode = minHeap.pop();
             T currentVertex = currentNode.getVertex();
             settled.add(currentVertex);
 
@@ -37,7 +37,7 @@ public class Dijkstra<T> {
                     double newDistance = shortestDistances.get(currentVertex) + distance;
                     if (newDistance < shortestDistances.get(adjacentVertex)) {
                         shortestDistances.put(adjacentVertex, newDistance);
-                        minHeap.insert(new Node<>(adjacentVertex, newDistance));
+                        minHeap.push(new Node<>(adjacentVertex, newDistance));
                     }
                 }
             }

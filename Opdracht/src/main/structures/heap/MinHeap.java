@@ -15,7 +15,15 @@ public class MinHeap<T extends Comparable<T>> {
         size = 0;
     }
 
-    public void insert(T data) {
+    public int size() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public void push(T data) {
         if (heap.length == size) {
             resize(2 * heap.length);
         }
@@ -28,7 +36,7 @@ public class MinHeap<T extends Comparable<T>> {
         }
     }
 
-    public T delete() {
+    public T pop() {
         if (isEmpty()) {
             throw new NullPointerException("Heap is empty");
         }
@@ -37,6 +45,30 @@ public class MinHeap<T extends Comparable<T>> {
         size--;
         heapify(0);
         return data;
+    }
+
+    public T peek() {
+        if (isEmpty()) {
+            throw new NullPointerException("Heap is empty");
+        }
+        return heap[0];
+    }
+
+    public boolean contains(T data) {
+        for (int i = 0; i < size; i++) {
+            if (heap[i].equals(data)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void buildHeap(T[] array) {
+        heap = array;
+        size = array.length;
+        for (int i = (size / 2) - 1; i >= 0; i--) {
+            heapify(i);
+        }
     }
 
     private void heapify(int index) {
@@ -82,20 +114,5 @@ public class MinHeap<T extends Comparable<T>> {
         return (2 * index) + 2;
     }
 
-    public int size() {
-        return size;
-    }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    public boolean contains(T data) {
-        for (int i = 0; i < size; i++) {
-            if (heap[i].equals(data)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

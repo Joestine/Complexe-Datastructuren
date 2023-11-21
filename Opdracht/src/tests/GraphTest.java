@@ -14,7 +14,6 @@ public class GraphTest {
     @BeforeEach
     void setUp() {
         graph = new Graph<>();
-
     }
 
     @Test

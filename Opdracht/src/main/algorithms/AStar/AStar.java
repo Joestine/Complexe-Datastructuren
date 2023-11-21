@@ -17,10 +17,10 @@ public class AStar<T> {
 
         Node<T> startNode = new Node<>(start, 0.0, heuristic.apply(start), null);
         allNodes.put(start, startNode);
-        minHeap.insert(startNode);
+        minHeap.push(startNode);
 
         while (!minHeap.isEmpty()) {
-            Node<T> currentNode = minHeap.delete();
+            Node<T> currentNode = minHeap.pop();
 
             if (currentNode.getVertex().equals(end)) {
                 return reconstructPath(currentNode);
@@ -39,7 +39,7 @@ public class AStar<T> {
                     adjacentNode.setDistanceFromStart(tentativeDistance);
                     adjacentNode.setPrevious(currentNode);
                     if (!minHeap.contains(adjacentNode)) {
-                        minHeap.insert(adjacentNode);
+                        minHeap.push(adjacentNode);
                     }
                 }
             }

@@ -68,7 +68,7 @@ public class AVLTree<T extends Comparable<T>> {
         } else if (data.compareTo(node.getData()) > 0) {
             node.setRight(delete(node.getRight(), data));
         } else {
-            if ((node.getLeft() == null) || (node.getRight() == null)) {
+            if (node.isLeaf()) {
                 AVLNode<T> temp = null;
                 if (temp == node.getLeft()) {
                     temp = node.getRight();
@@ -76,11 +76,7 @@ public class AVLTree<T extends Comparable<T>> {
                     temp = node.getLeft();
                 }
 
-                if (temp == null) {
-                    node = null;
-                } else {
-                    node = temp;
-                }
+                node = temp;
             } else {
                 AVLNode<T> temp = minValueNode(node.getRight());
                 node.setData(temp.getData());
@@ -187,5 +183,30 @@ public class AVLTree<T extends Comparable<T>> {
             return 0;
         }
         return height(node.getLeft()) - height(node.getRight());
+    }
+
+    public String graphViz() {
+        return "digraph G {\n" + graphViz(root) + "}";
+    }
+
+    private String graphViz(AVLNode<T> node) {
+        if (node == null) {
+            return "";
+        }
+
+        String result = "";
+
+        if (node.getLeft() != null) {
+            result += node.getData() + " -> " + node.getLeft().getData() + ";\n";
+        }
+
+        if (node.getRight() != null) {
+            result += node.getData() + " -> " + node.getRight().getData() + ";\n";
+        }
+
+        result += graphViz(node.getLeft());
+        result += graphViz(node.getRight());
+
+        return result;
     }
 }
