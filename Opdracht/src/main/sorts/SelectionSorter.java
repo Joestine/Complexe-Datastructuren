@@ -1,24 +1,27 @@
 package main.sorts;
 
-import java.util.ArrayList;
-import java.util.List;
+import main.structures.linkedlist.LinkedList;
 
 public class SelectionSorter<T extends Comparable<T>> implements Sorter<T> {
 
     @Override
-    public List<T> sort(List<T> list) {
-        List<T> sortedList = new ArrayList<>(list);
+    public LinkedList<T> sort(LinkedList<T> list) {
+        LinkedList<T> copy = new LinkedList<>();
+        for (int i = 0; i < list.size(); i++) {
+            copy.add(list.get(i));
+        }
 
-        for (int i = 0; i < sortedList.size() - 1; i++) {
-            int minIndex = i;
-            for (int j = i + 1; j < sortedList.size(); j++) {
-                if (sortedList.get(j).compareTo(sortedList.get(minIndex)) < 0) {
-                    minIndex = j;
+        LinkedList<T> sortedList = new LinkedList<>();
+        while (!copy.isEmpty()) {
+            T smallest = copy.get(0);
+            int smallestIndex = 0;
+            for (int i = 1; i < copy.size(); i++) {
+                if (copy.get(i).compareTo(smallest) < 0) {
+                    smallest = copy.get(i);
+                    smallestIndex = i;
                 }
             }
-            T temp = sortedList.get(i);
-            sortedList.set(i, sortedList.get(minIndex));
-            sortedList.set(minIndex, temp);
+            sortedList.add(copy.remove(smallestIndex));
         }
         return sortedList;
     }

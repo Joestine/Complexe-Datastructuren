@@ -1276,6 +1276,7 @@ vd,zp,12,12,30
 vdl,hrlw,2,2,30
 vdl,kmr,4,4,30
 vdm,zb,8,8,30
+zb,vdm,8,8,30
 vem,kbk,5,5,30
 vem,zp,4,4,30
 vg,btl,8,8,30
@@ -1391,7 +1392,6 @@ za,est,11,11,30
 za,hmn,3,3,30
 zb,hgz,8,8,30
 zb,sda,8,8,30
-zb,vdm,8,8,30
 zbm,gdm,9,9,30
 zbm,ht,13,13,30
 zd,asdl,9,9,30

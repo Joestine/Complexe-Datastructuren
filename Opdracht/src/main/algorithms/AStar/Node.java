@@ -1,40 +1,16 @@
 package main.algorithms.AStar;
 
 public class Node<T> implements Comparable<Node<T>> {
-    private final T vertex;
-    private double distanceFromStart;
-    private final double distanceToEnd;
-    private Node<T> previous;
+    T vertex;
+    double fScore;
 
-    public Node(T vertex, double distanceFromStart, double distanceToEnd, Node<T> previous) {
+    Node(T vertex, double fScore) {
         this.vertex = vertex;
-        this.distanceFromStart = distanceFromStart;
-        this.distanceToEnd = distanceToEnd;
-        this.previous = previous;
-    }
-
-    public T getVertex() {
-        return vertex;
-    }
-
-    public double getDistanceFromStart() {
-        return distanceFromStart;
-    }
-
-    public Node<T> getPrevious() {
-        return previous;
+        this.fScore = fScore;
     }
 
     @Override
-    public int compareTo(Node<T> node) {
-        return Double.compare(this.distanceFromStart + this.distanceToEnd, node.distanceFromStart + node.distanceToEnd);
-    }
-
-    public void setPrevious(Node<T> node) {
-        this.previous = node;
-    }
-
-    public void setDistanceFromStart(double tentativeDistance) {
-        this.distanceFromStart = tentativeDistance;
+    public int compareTo(Node<T> other) {
+        return Double.compare(this.fScore, other.fScore);
     }
 }

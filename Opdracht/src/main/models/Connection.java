@@ -11,6 +11,18 @@ public class Connection implements Comparable<Connection> {
         this.distance = distance;
     }
 
+    public String getStart() {
+        return start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
     @Override
     public int compareTo(Connection connection) {
         return Integer.compare(this.distance, connection.distance);

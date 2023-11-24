@@ -209,4 +209,19 @@ public class AVLTree<T extends Comparable<T>> {
 
         return result;
     }
+
+    public boolean isEmpty() {
+        return root == null;
+    }
+
+    public int size() {
+        return size(root);
+    }
+
+    private int size(AVLNode<T> node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + size(node.getLeft()) + size(node.getRight());
+    }
 }
