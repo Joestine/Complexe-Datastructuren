@@ -3,12 +3,17 @@ package main.structures.hashtable;
 import java.util.Set;
 
 public class HashTable<K, V> {
-    private static final int DEFAULT_CAPACITY = 999999;
+    private static final int DEFAULT_CAPACITY = 64;
     private final Node<K, V>[] buckets;
     private int size;
 
     public HashTable() {
         buckets = new Node[DEFAULT_CAPACITY];
+        size = 0;
+    }
+
+    public HashTable(int capacity) {
+        buckets = new Node[capacity];
         size = 0;
     }
 
@@ -38,6 +43,10 @@ public class HashTable<K, V> {
 
     public V get(K key) {
         int bucketIndex = getBucketIndex(key);
+        if (bucketIndex < 0 || bucketIndex >= buckets.length) {
+            return null;
+        }
+
         Node<K, V> head = buckets[bucketIndex];
 
         while (head != null) {
@@ -64,6 +73,9 @@ public class HashTable<K, V> {
 
     public V remove(K key) {
         int bucketIndex = getBucketIndex(key);
+        if (bucketIndex < 0 || bucketIndex >= buckets.length) {
+            return null;
+        }
         Node<K, V> head = buckets[bucketIndex];
         Node<K, V> prev = null;
 
@@ -91,6 +103,9 @@ public class HashTable<K, V> {
 
     public boolean contains(K key) {
         int bucketIndex = getBucketIndex(key);
+        if (bucketIndex < 0 || bucketIndex >= buckets.length) {
+            return false;
+        }
         Node<K, V> head = buckets[bucketIndex];
 
         while (head != null) {
@@ -99,7 +114,6 @@ public class HashTable<K, V> {
             }
             head = head.next;
         }
-
         return false;
     }
 
@@ -111,12 +125,11 @@ public class HashTable<K, V> {
         return size == 0;
     }
 
-    public Node<K, V>[] getBuckets() {
-        return buckets;
-    }
-
     public V getOrDefault(K key, V defaultValue) {
         int bucketIndex = getBucketIndex(key);
+        if (bucketIndex < 0 || bucketIndex >= buckets.length) {
+            return defaultValue;
+        }
         Node<K, V> head = buckets[bucketIndex];
 
         while (head != null) {
@@ -127,5 +140,20 @@ public class HashTable<K, V> {
         }
 
         return defaultValue;
+    }
+
+    @Override
+    public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("HashTable [\n");
+        for (Node<K, V> bucket : buckets) {
+            Node<K, V> head = bucket;
+            while (head != null) {
+                stringBuilder.append("\t").append(head.key).append(": ").append(head.value).append("\n");
+                head = head.next;
+            }
+        }
+        stringBuilder.append("]");
+        return stringBuilder.toString();
     }
 }

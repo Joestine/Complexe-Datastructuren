@@ -17,9 +17,6 @@ public class LinkedList<T extends Comparable<T>> {
     }
 
     public T remove(T data) {
-        if (head == null) {
-            return null;
-        }
         if (head.getData().equals(data)) {
             T temp = head.getData();
             head = head.getNext();
@@ -38,6 +35,9 @@ public class LinkedList<T extends Comparable<T>> {
     }
 
     public T remove(int i) {
+        if (i < 0) {
+            throw new IndexOutOfBoundsException("Index cannot be negative");
+        }
         if (head == null) {
             return null;
         }
@@ -76,6 +76,9 @@ public class LinkedList<T extends Comparable<T>> {
                 return null;
             }
             current = current.getNext();
+        }
+        if (current == null) {
+            return null;
         }
         return current.getData();
     }
@@ -117,21 +120,13 @@ public class LinkedList<T extends Comparable<T>> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder("LinkedList: [\n");
         Node<T> current = head;
         while (current != null) {
-            sb.append(current.getData()).append(" ");
+            sb.append(current.getData()).append("\n");
             current = current.getNext();
         }
+        sb.append("]");
         return sb.toString();
-    }
-
-    public T removeFirst() {
-        if (head == null) {
-            return null;
-        }
-        T temp = head.getData();
-        head = head.getNext();
-        return temp;
     }
 }

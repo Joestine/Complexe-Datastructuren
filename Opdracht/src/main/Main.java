@@ -1,7 +1,4 @@
 package main;
-
-import main.models.Geolocation;
-
 import java.io.IOException;
 
 public class Main {

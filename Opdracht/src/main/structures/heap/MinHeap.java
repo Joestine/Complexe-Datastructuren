@@ -47,6 +47,22 @@ public class MinHeap<T extends Comparable<T>> {
         return data;
     }
 
+    public void remove(T destinationInfo) {
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (heap[i].equals(destinationInfo)) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            throw new NullPointerException("Heap does not contain " + destinationInfo);
+        }
+        heap[index] = heap[size - 1];
+        size--;
+        heapify(index);
+    }
+
     public T peek() {
         if (isEmpty()) {
             throw new NullPointerException("Heap is empty");
@@ -113,6 +129,5 @@ public class MinHeap<T extends Comparable<T>> {
     private int right(int index) {
         return (2 * index) + 2;
     }
-
 
 }

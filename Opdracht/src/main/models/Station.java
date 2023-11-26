@@ -36,60 +36,20 @@ public class Station implements Comparable<Station> {
 
     @Override
     public String toString() {
-        return "main.models.Station{" +
-                "id=" + id +
-                ", code='" + code + '\'' +
-                ", uic=" + uic +
-                ", nameShort='" + nameShort + '\'' +
-                ", nameMedium='" + nameMedium + '\'' +
-                ", nameLong='" + nameLong + '\'' +
-                ", slug='" + slug + '\'' +
-                ", country='" + country + '\'' +
-                ", type=" + type +
-                ", geolocation=" + geolocation +
-                '}';
-    }
-
-    public int getId() {
-        return id;
+        return "Station {" + nameShort + ", " + code + "}";
     }
 
     public String getCode() {
         return code;
     }
 
-    public int getUic() {
-        return uic;
-    }
-
     public String getNameShort() {
         return nameShort;
-    }
-
-    public String getNameMedium() {
-        return nameMedium;
-    }
-
-    public String getNameLong() {
-        return nameLong;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public StationType getType() {
-        return type;
     }
 
     public Geolocation getGeolocation() {
         return geolocation;
     }
-
     @Override
     public int compareTo(Station o) {
         return this.nameShort.compareTo(o.nameShort);

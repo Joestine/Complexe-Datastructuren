@@ -1,5 +1,7 @@
 package main.structures.tree;
 
+import main.tools.FormatForGraphViz;
+
 import java.util.function.Function;
 
 public class AVLTree<T extends Comparable<T>> {
@@ -9,22 +11,19 @@ public class AVLTree<T extends Comparable<T>> {
         root = null;
     }
 
-    public void insert(T data) {
-        if (data == null) {
-            throw new NullPointerException("Data cannot be null");
-        }
-        root = insert(root, data);
+    public void add(T data) {
+        root = add(root, data);
     }
 
-    private AVLNode<T> insert(AVLNode<T> node, T data) {
+    private AVLNode<T> add(AVLNode<T> node, T data) {
         if (node == null) {
             return new AVLNode<>(data);
         }
 
         if (data.compareTo(node.getData()) < 0) {
-            node.setLeft(insert(node.getLeft(), data));
+            node.setLeft(add(node.getLeft(), data));
         } else if (data.compareTo(node.getData()) > 0) {
-            node.setRight(insert(node.getRight(), data));
+            node.setRight(add(node.getRight(), data));
         } else {
             return node;
         }
@@ -54,33 +53,50 @@ public class AVLTree<T extends Comparable<T>> {
         return node;
     }
 
-    public void delete(T data) {
-        root = delete(root, data);
+    public boolean contains(T data) {
+        return contains(root, data);
     }
 
-    public AVLNode<T> delete(AVLNode<T> node, T data) {
+    private boolean contains(AVLNode<T> node, T data) {
+        if (node == null) {
+            return false;
+        }
+
+        if (data.compareTo(node.getData()) < 0) {
+            return contains(node.getLeft(), data);
+        } else if (data.compareTo(node.getData()) > 0) {
+            return contains(node.getRight(), data);
+        } else {
+            return true;
+        }
+    }
+
+    public void remove(T data) {
+        root = remove(root, data);
+    }
+
+    public AVLNode<T> remove(AVLNode<T> node, T data) {
         if (node == null) {
             return null;
         }
 
         if (data.compareTo(node.getData()) < 0) {
-            node.setLeft(delete(node.getLeft(), data));
+            node.setLeft(remove(node.getLeft(), data));
         } else if (data.compareTo(node.getData()) > 0) {
-            node.setRight(delete(node.getRight(), data));
+            node.setRight(remove(node.getRight(), data));
         } else {
             if (node.isLeaf()) {
-                AVLNode<T> temp = null;
-                if (temp == node.getLeft()) {
+                AVLNode<T> temp;
+                if (node.getLeft() == null) {
                     temp = node.getRight();
                 } else {
                     temp = node.getLeft();
                 }
-
                 node = temp;
             } else {
                 AVLNode<T> temp = minValueNode(node.getRight());
                 node.setData(temp.getData());
-                node.setRight(delete(node.getRight(), temp.getData()));
+                node.setRight(remove(node.getRight(), temp.getData()));
             }
         }
 
@@ -113,11 +129,11 @@ public class AVLTree<T extends Comparable<T>> {
         return node;
     }
 
-    public T search(String property, Function<T, String> propertyExtractor) {
-        return search(root, property, propertyExtractor);
+    public T get(String property, Function<T, String> propertyExtractor) {
+        return get(root, property, propertyExtractor);
     }
 
-    private T search(AVLNode<T> node, String property, Function<T, String> propertyExtractor) {
+    private T get(AVLNode<T> node, String property, Function<T, String> propertyExtractor) {
         if (node == null) {
             return null;
         }
@@ -127,9 +143,9 @@ public class AVLTree<T extends Comparable<T>> {
 
         int cmp = property.compareTo(nodeProperty);
         if (cmp < 0) {
-            return search(node.getLeft(), property, propertyExtractor);
+            return get(node.getLeft(), property, propertyExtractor);
         } else if (cmp > 0) {
-            return search(node.getRight(), property, propertyExtractor);
+            return get(node.getRight(), property, propertyExtractor);
         } else {
             return nodeData;
         }
@@ -185,6 +201,22 @@ public class AVLTree<T extends Comparable<T>> {
         return height(node.getLeft()) - height(node.getRight());
     }
 
+    public String toString() {
+        return "Tree {\n" + toString(root) + "}";
+    }
+
+    private String toString(AVLNode<T> node) {
+        if (node == null) {
+            return "";
+        }
+
+        return "\t" +
+                node.getData().toString() +
+                "\n" +
+                toString(node.getLeft()) +
+                toString(node.getRight());
+    }
+
     public String graphViz() {
         return "digraph G {\n" + graphViz(root) + "}";
     }
@@ -194,20 +226,28 @@ public class AVLTree<T extends Comparable<T>> {
             return "";
         }
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         if (node.getLeft() != null) {
-            result += node.getData() + " -> " + node.getLeft().getData() + ";\n";
+            result.append("\t");
+            result.append(FormatForGraphViz.formatForGraphviz(node.getData().toString()));
+            result.append(" -> ");
+            result.append(FormatForGraphViz.formatForGraphviz(node.getLeft().getData().toString()));
+            result.append(";\n");
         }
 
         if (node.getRight() != null) {
-            result += node.getData() + " -> " + node.getRight().getData() + ";\n";
+            result.append("\t");
+            result.append(FormatForGraphViz.formatForGraphviz(node.getData().toString()));
+            result.append(" -> ");
+            result.append(FormatForGraphViz.formatForGraphviz(node.getRight().getData().toString()));
+            result.append(";\n");
         }
 
-        result += graphViz(node.getLeft());
-        result += graphViz(node.getRight());
+        result.append(graphViz(node.getLeft()));
+        result.append(graphViz(node.getRight()));
 
-        return result;
+        return result.toString();
     }
 
     public boolean isEmpty() {
