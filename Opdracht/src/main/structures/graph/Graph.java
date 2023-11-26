@@ -12,17 +12,17 @@ public class Graph<T extends Comparable<T>> {
         adjacencyList = new HashTable<>();
     }
 
-    public void addVertex(T vertex) {
-        adjacencyList.put(vertex, new LinkedList<>());
+    public void addNode(T node) {
+        adjacencyList.put(node, new LinkedList<>());
     }
 
     public void addEdge(T source, T destination, double weight) {
         if (!adjacencyList.contains(source)) {
-            addVertex(source);
+            addNode(source);
         }
 
         if (!adjacencyList.contains(destination)) {
-            addVertex(destination);
+            addNode(destination);
         }
 
         adjacencyList.get(source).add(new Edge<>(source, destination, weight));

@@ -19,7 +19,7 @@ public class GraphTest {
 
     @Test
     void testAddVertex() {
-        graph.addVertex("A");
+        graph.addNode("A");
         HashTable<String, LinkedList<Edge<String>>> adjList = graph.getAdjacencyList();
         assertTrue(adjList.contains("A"));
         assertTrue(adjList.get("A").isEmpty());

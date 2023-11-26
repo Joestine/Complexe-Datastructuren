@@ -87,6 +87,33 @@ public class MinHeap<T extends Comparable<T>> {
         }
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder("MinHeap {\n");
+        for (int i = 0; i < size; i++) {
+            sb.append("\t").append(heap[i]).append(" ");
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
+    public String graphViz() {
+StringBuilder sb = new StringBuilder("digraph MinHeap {\n");
+        sb.append("\tnode [shape=record]\n");
+        for (int i = 0; i < size; i++) {
+            sb.append("\t").append(i).append(" [label=\"").append(heap[i]).append("\"]\n");
+        }
+        for (int i = 0; i < size; i++) {
+            if (left(i) < size) {
+                sb.append("\t").append(i).append(" -> ").append(left(i)).append("\n");
+            }
+            if (right(i) < size) {
+                sb.append("\t").append(i).append(" -> ").append(right(i)).append("\n");
+            }
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
     private void heapify(int index) {
         int left = left(index);
         int right = right(index);

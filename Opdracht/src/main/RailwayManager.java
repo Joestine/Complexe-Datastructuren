@@ -22,34 +22,36 @@ import java.util.function.Function;
 
 
 public class RailwayManager {
+    private final static String STATIONS_FILE = "resources/stations.csv";
+    private final static String CONNECTIONS_FILE = "resources/tracks.csv";
     private final main.structures.linkedlist.LinkedList<Station> stations;
     private final main.structures.linkedlist.LinkedList<Connection> connections;
     private final AVLTree<Station> tree;
     private final Graph<Station> graph;
 
     public RailwayManager() throws IOException {
-        stations = new main.structures.linkedlist.LinkedList<>();
-        StationReader.readStations("resources/stations.csv").forEach(stations::add);
+        stations = new main.structures.linkedlist.LinkedList<>(); // lees stations in
+        StationReader.readStations(STATIONS_FILE).forEach(stations::add);
 
-        connections = new main.structures.linkedlist.LinkedList<>();
-        ConnectionReader.readConnections("resources/tracks.csv").forEach(connections::add);
+        connections = new main.structures.linkedlist.LinkedList<>(); // lees verbindingen in
+        ConnectionReader.readConnections(CONNECTIONS_FILE).forEach(connections::add);
 
-        tree = new AVLTree<>();
+        tree = new AVLTree<>(); // maak AVL-tree aan
         Node<Station> current = stations.getHead();
         while (current != null) {
             tree.add(current.getData());
             current = current.getNext();
         }
 
-        graph = new Graph<>();
+        graph = new Graph<>(); // maak graaf aan
 
-        current = stations.getHead();
+        current = stations.getHead(); // voeg alle stations toe aan de graaf
         while (current != null) {
-            graph.addVertex(current.getData());
+            graph.addNode(current.getData());
             current = current.getNext();
         }
 
-        current = stations.getHead();
+        current = stations.getHead(); // voeg alle verbindingen toe aan de graaf
         while (current != null) {
             Node<Connection> currentConnection = connections.getHead();
             while (currentConnection != null) {

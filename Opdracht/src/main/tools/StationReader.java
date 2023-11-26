@@ -42,6 +42,6 @@ public class StationReader {
                 "^\\d+,[A-Z]+,\\d{7},\"?(.+?),\"?(.+?),\"?(.+?),\"?(.+?),NL," +
                         "((stoptreinstation)|(knooppuntStoptreinstation)|(sneltreinstation)|(knooppuntSneltreinstation)|" +
                         "(intercitystation)|(knooppuntIntercitystation)|(megastation)),\\d+(\\.\\d+)?,\\d+(\\.\\d+)?$");
-        return true;
+        return pattern.matcher(line).matches();
     }
 }
